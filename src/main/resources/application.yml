@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc
+    username: xa
+    password: xa
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  application:
+    name: my_restaurant_app
