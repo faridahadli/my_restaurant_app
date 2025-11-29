@@ -5,13 +5,14 @@ spring:
   datasource:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
-    username: farid
-    password: ahadli
+    username: sa
+    password:
 
   h2:
     console:
       enabled: true
       path: /h2-console
+      generate-unique-name: false
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
