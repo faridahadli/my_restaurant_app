@@ -21,6 +21,22 @@ import java.util.Map;
 @NoArgsConstructor
 public class Cart {
 
-    public Map<RestaurantMenuItem, Integer> orders = new HashMap<>();
 
+    public Map<RestaurantMenuItem, Integer> orders = new HashMap<>();
+    public void addItem(RestaurantMenuItem item, Integer quantity) {
+        orders.put(item, quantity);
+    }
+
+    public void removeItem(RestaurantMenuItem item) {
+        orders.remove(item);
+
+    }
+
+    public void adjustQuantity(RestaurantMenuItem item, Integer quantity) {
+        orders.replace(item,quantity);
+    }
+
+    public void makeOrder(){
+
+    };
 }
