@@ -1,22 +1,22 @@
-package com.farid.ahadli.my_restaurant_app.entity;
+package com.farid.ahadli.my_restaurant_app.model.entity;
 
+import com.farid.ahadli.my_restaurant_app.model.TaxType;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "menu")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @ToString
 @EqualsAndHashCode
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RestaurantMenuItem {
 
     @Id
@@ -31,17 +31,27 @@ public class RestaurantMenuItem {
 
     @ManyToMany
     @JoinTable(
-            name = "menu_ingridient",
+            name = "menu_ingredient",
             joinColumns = @JoinColumn(name = "menu_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingridient_id")
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
-    public Set<RestaurantIngredients> ingredientSet =  new HashSet<>()  ;
+    public Set<RestaurantIngredients> ingredientSet =  new HashSet<>() ;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false,name = "tax_type")
+    TaxType taxType;
+
+    @Column(nullable = false, name = "tax_rate")
+    Double taxRate;
+
+    @Column(nullable = false, name = "tax_amount")
+    Double taxAmount;
+
+
 
     public void addIngredientSet( RestaurantIngredients ingredient ) {
         ingredientSet.add( ingredient );
         ingredient.addMenuItem( this );
-
-
     }
 
 

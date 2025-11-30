@@ -1,4 +1,4 @@
-package com.farid.ahadli.my_restaurant_app.entity;
+package com.farid.ahadli.my_restaurant_app.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
