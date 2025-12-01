@@ -1,5 +1,6 @@
 package com.farid.ahadli.my_restaurant_app.service;
 
+import com.farid.ahadli.my_restaurant_app.GlobalUtil;
 import com.farid.ahadli.my_restaurant_app.exception.AbsentMenuItemException;
 import com.farid.ahadli.my_restaurant_app.exception.EmptyMenuException;
 import com.farid.ahadli.my_restaurant_app.exception.InvalidMenuItemId;
@@ -32,44 +33,19 @@ public class CustomerService {
     RestaurantMenuItemRepository restaurantMenuItemRepository;
     public List<CustomerRestaurantMenuItemResponseDTO> getMenuItems() {
        List<RestaurantMenuItem> MenuItems = restaurantMenuItemRepository.findAll();
-       isMenuEmpty(MenuItems);
-       return CustomerRestaurantMenuItemResponseDTO.convertRestaurantMenuItemListToCustomerRestaurantMenuItemResponseDTOList(MenuItems);
+       GlobalUtil.isMenuEmpty(MenuItems);
+       return CustomerRestaurantMenuItemResponseDTO
+               .convertRestaurantMenuItemListToCustomerRestaurantMenuItemResponseDTOList(MenuItems);
     }
 
     public CustomerRestaurantMenuItemResponseDTO getMenuItemById(Integer id) {
-        isProperId(id);
+        GlobalUtil.isProperId(id);
         Optional<RestaurantMenuItem> item = restaurantMenuItemRepository.findById(id);
-        isMenuItemPresent(item);
-        return CustomerRestaurantMenuItemResponseDTO.convertRestaurantMenuItemToCustomerRestaurantMenuItemResponseDTO(item.get());
+        GlobalUtil.isMenuItemPresent(item);
+        return CustomerRestaurantMenuItemResponseDTO
+                .convertRestaurantMenuItemToCustomerRestaurantMenuItemResponseDTO(item.get());
     }
 
-    private void isMenuItemPresent(Optional<RestaurantMenuItem> item) {
-        if (!item.isPresent()) {
-            throw AbsentMenuItemException.builder()
-                    .statusCode(HttpStatus.NOT_FOUND)
-                    .message("No menu item found")
-                    .build();
-        }
-    }
 
-    private void isProperId(Integer id) {
-        if(Objects.isNull(id)){
-            throw InvalidMenuItemId.builder()
-                    .message("Input Id format is invalid")
-                    .statusCode(HttpStatus.BAD_REQUEST)
-                    .build();
-        }
-    }
-
-    private void isMenuEmpty(List<RestaurantMenuItem> MenuItems) {
-        if(MenuItems.isEmpty()) {
-            throw EmptyMenuException
-                    .builder()
-                    .message("Menu is empty").
-                    statusCode(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build();
-
-        }
-    }
 
 }
