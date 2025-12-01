@@ -1,7 +1,6 @@
 package com.farid.ahadli.my_restaurant_app.service;
 
 import com.farid.ahadli.my_restaurant_app.exception.AbsentMenuItemException;
-import com.farid.ahadli.my_restaurant_app.exception.BaseRestaurantException;
 import com.farid.ahadli.my_restaurant_app.exception.EmptyMenuException;
 import com.farid.ahadli.my_restaurant_app.exception.InvalidMenuItemId;
 import com.farid.ahadli.my_restaurant_app.model.Cart;
@@ -34,17 +33,14 @@ public class CustomerService {
     public List<CustomerRestaurantMenuItemResponseDTO> getMenuItems() {
        List<RestaurantMenuItem> MenuItems = restaurantMenuItemRepository.findAll();
        isMenuEmpty(MenuItems);
-       return convertRestaurantMenuItemListToCustomerRestaurantMenuItemResponseDTOList(MenuItems);
+       return CustomerRestaurantMenuItemResponseDTO.convertRestaurantMenuItemListToCustomerRestaurantMenuItemResponseDTOList(MenuItems);
     }
 
     public CustomerRestaurantMenuItemResponseDTO getMenuItemById(Integer id) {
         isProperId(id);
-
         Optional<RestaurantMenuItem> item = restaurantMenuItemRepository.findById(id);
-
         isMenuItemPresent(item);
-
-        return convertRestaurantMenuItemToCustomerRestaurantMenuItemResponseDTO(item.get());
+        return CustomerRestaurantMenuItemResponseDTO.convertRestaurantMenuItemToCustomerRestaurantMenuItemResponseDTO(item.get());
     }
 
     private void isMenuItemPresent(Optional<RestaurantMenuItem> item) {
@@ -76,40 +72,4 @@ public class CustomerService {
         }
     }
 
-
-    private CustomerRestaurantMenuItemResponseDTO convertRestaurantMenuItemToCustomerRestaurantMenuItemResponseDTO (RestaurantMenuItem menuItem) {
-
-        return CustomerRestaurantMenuItemResponseDTO.builder()
-                .id(menuItem.getId())
-                .name(menuItem.getName())
-                .price(menuItem.getPrice())
-                .ingredients(
-                        convertRestaurantIngredientListToCustomerRestaurantIngredientResponseDTOList(menuItem.getIngredientSet())
-                )
-                .taxRate(menuItem.getTaxRate())
-                .taxType(menuItem.getTaxType())
-                .taxAmount(menuItem.getTaxAmount())
-                .build();
-
-    }
-
-
-
-    private List<CustomerRestaurantMenuItemResponseDTO> convertRestaurantMenuItemListToCustomerRestaurantMenuItemResponseDTOList(List<RestaurantMenuItem> MenuItems) {
-       return MenuItems
-                .stream()
-                .map(this::convertRestaurantMenuItemToCustomerRestaurantMenuItemResponseDTO)
-               .collect(Collectors.toList());
-    }
-
-    private Set<CustomerRestaurantIngredientsResponseDTO> convertRestaurantIngredientListToCustomerRestaurantIngredientResponseDTOList(Set<RestaurantIngredients> ingredients) {
-        return ingredients.stream()
-                .map(ingredientItem-> CustomerRestaurantIngredientsResponseDTO.builder()
-                        .id(ingredientItem.getId())
-                        .name(ingredientItem.getName())
-                        .Allergen(ingredientItem.getAllergen())
-                        .build()
-
-                ).collect(Collectors.toSet());
-    }
 }
