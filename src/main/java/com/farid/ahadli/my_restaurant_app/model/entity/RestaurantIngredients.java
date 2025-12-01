@@ -1,5 +1,6 @@
 package com.farid.ahadli.my_restaurant_app.model.entity;
 
+import com.farid.ahadli.my_restaurant_app.model.MeasureUnits;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -24,7 +25,7 @@ public class RestaurantIngredients {
     @Column(nullable = false)
     String name;
     @Column(nullable = false)
-    Boolean ifAllergen;
+    Boolean Allergen;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
@@ -38,6 +39,13 @@ public class RestaurantIngredients {
         menuItemSet.add(menuItem);
         menuItem.addIngredientSet(this);
     }
+
+    @Column(nullable = false,name = "unit")
+    MeasureUnits measureUnits;
+
+    @Column(nullable = false,name = "price_per_unit")
+    Double pricePerUnit;
+
 
 
 

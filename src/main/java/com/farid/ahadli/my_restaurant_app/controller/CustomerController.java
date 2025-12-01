@@ -1,5 +1,9 @@
 package com.farid.ahadli.my_restaurant_app.controller;
 
+import com.farid.ahadli.my_restaurant_app.service.CustomerService;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,20 +13,24 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/")
+@FieldDefaults(level= AccessLevel.PRIVATE, makeFinal=true)
+@Data
 public class CustomerController {
+
+    CustomerService customerService;
 
     @GetMapping("/menu")
     public ResponseEntity<?> getMenu() {
         return ResponseEntity.
                 status(HttpStatus.OK).
-                body(null);
+                body(customerService.getMenuItems());
     }
 
     @GetMapping("/menu/{id}")
     public ResponseEntity<?> getMenuItemById(@PathVariable Integer id) {
         return ResponseEntity.
                 status(HttpStatus.OK).
-                body(null);
+                body(customerService.getMenuItemById(id));
     }
 
 //    @GetMapping("/menu/{id}/allergens")
