@@ -39,7 +39,7 @@ public class CustomerService {
     }
 
     public CustomerRestaurantMenuItemResponseDTO getMenuItemById(Integer id) {
-        GlobalUtil.isProperId(id);
+        GlobalUtil.isProperMenuItemId(id);
         Optional<RestaurantMenuItem> item = restaurantMenuItemRepository.findById(id);
         GlobalUtil.isMenuItemPresent(item);
         return CustomerRestaurantMenuItemResponseDTO

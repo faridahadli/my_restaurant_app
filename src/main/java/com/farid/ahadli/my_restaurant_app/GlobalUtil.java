@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class GlobalUtil {
-    public static void isMenuItemPresent(Optional<RestaurantMenuItem> item) {
+ final public  class GlobalUtil {
+    static public  void isMenuItemPresent(Optional<RestaurantMenuItem> item) {
         if (!item.isPresent()) {
             throw AbsentMenuItemException.builder()
                     .statusCode(HttpStatus.NOT_FOUND)
@@ -20,7 +20,7 @@ public class GlobalUtil {
         }
     }
 
-    public static void isProperId(Integer id) {
+    public static void isProperMenuItemId(Integer id) {
         if(Objects.isNull(id)){
             throw InvalidMenuItemId.builder()
                     .message("Input Id format is invalid")
@@ -38,5 +38,9 @@ public class GlobalUtil {
                     .build();
 
         }
+    }
+
+    private GlobalUtil() {
+
     }
 }

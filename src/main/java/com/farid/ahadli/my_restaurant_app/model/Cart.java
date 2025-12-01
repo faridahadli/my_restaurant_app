@@ -1,6 +1,7 @@
 package com.farid.ahadli.my_restaurant_app.model;
 
 
+import com.farid.ahadli.my_restaurant_app.model.dto.response.CustomerRestaurantMenuItemResponseDTO;
 import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantMenuItem;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -19,15 +20,16 @@ import java.util.Map;
 public class Cart {
 
 
-    public Map<RestaurantMenuItem, Integer> orders = new HashMap<>();
-    public void addItem(RestaurantMenuItem item, Integer quantity) {
+    public Map<CustomerRestaurantMenuItemResponseDTO, Integer> orders = new HashMap<>();
+    public void addItem(CustomerRestaurantMenuItemResponseDTO item, Integer quantity) {
         orders.put(item, quantity);
     }
 
-    public void removeItem(RestaurantMenuItem item) {
+    public void removeItem(CustomerRestaurantMenuItemResponseDTO item) {
         orders.remove(item);
 
     }
+
 
 
 }
