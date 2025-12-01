@@ -4,11 +4,37 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/")
 public class CustomerController {
+
+    @GetMapping("/menu")
+    public ResponseEntity<?> getMenu() {
+        return ResponseEntity.
+                status(HttpStatus.OK).
+                body(null);
+    }
+
+    @GetMapping("/menu/{id}")
+    public ResponseEntity<?> getMenuItemById(@PathVariable Integer id) {
+        return ResponseEntity.
+                status(HttpStatus.OK).
+                body(null);
+    }
+
+//    @GetMapping("/menu/{id}/allergens")
+//    public ResponseEntity<?> getMenuItemAllergens(@PathVariable Integer id) {
+//        return ResponseEntity.
+//                status(HttpStatus.OK).
+//                body(null);
+//    }
+
+
+
+
     @GetMapping("/cart/items")
     public ResponseEntity<?>  getAllCartItems(){
         return ResponseEntity.
@@ -44,7 +70,7 @@ public class CustomerController {
                 body(null);
     }
     @DeleteMapping("/cart/items/")
-    public ResponseEntity<?>  deleteAllCartItems(@RequestBody Integer id){
+    public ResponseEntity<?>  deleteAllCartItems(){
         return ResponseEntity.
                 status(HttpStatus.OK).
                 body(null);

@@ -7,16 +7,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 @RestController
+@RequestMapping("/kitchen")
 public class KitchenController {
 
-    @GetMapping("/kitchen/orders")
+    @GetMapping("/orders")
     public ResponseEntity<?> getOrders() {
         return ResponseEntity.
                 ok().
                 body(null);
     }
 
-    @GetMapping("/kitchen/orders/{id}")
+    @GetMapping("/orders/{id}")
     public ResponseEntity<?> getOrdersById(@PathVariable Integer id) {
         return ResponseEntity.
                 ok().
@@ -24,7 +25,7 @@ public class KitchenController {
     }
 
 
-    @PutMapping("/kitchen/orders/{id}")
+    @PutMapping("/orders/{id}")
     public ResponseEntity<?> updateOrderStatus(@PathVariable Integer id) {
         return ResponseEntity.
                 ok().
