@@ -10,26 +10,27 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 @SessionScope
 @Data
-@FieldDefaults(level = AccessLevel.PUBLIC,makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 
-public class Cart implements Serializable {
+public class Cart  {
     @NonFinal
     Double totalPrice = 0d;
-    public Map<CustomerRestaurantMenuItemResponseDTO, Integer> orders = new HashMap<>();
-    public void addItem(CustomerRestaurantMenuItemResponseDTO item,  Integer quantity) {
-        orders.put(item, quantity);
-        totalPrice+=item.getPrice()*quantity;
+    public Map<Long, CartItem> orders = new HashMap<>();
+    public void addItem(CartItem item) {
+        CartItem prevItem  =  orders.put(item.getCustomerRestaurantMenuItemResponseDTO().getId(), item);
+        Double previousItemTotalPrice = Objects.isNull(prevItem)?0d: prevItem.getCartItemTotalPrice();
+        totalPrice+=(item.getCartItemTotalPrice()-previousItemTotalPrice);
     }
 
-    public void removeItem(CustomerRestaurantMenuItemResponseDTO item) {
-        orders.remove(item);
-        totalPrice-=item.getPrice();
+    public void removeItem(Long id) {
+        CartItem item = orders.get(id);
+        orders.remove(item.getCustomerRestaurantMenuItemResponseDTO().getId());
+        totalPrice-=item.getCartItemTotalPrice();
     }
 
     public void clearCart(){

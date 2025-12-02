@@ -34,14 +34,6 @@ public class CustomerController {
                 body(customerService.getMenuItemById(id));
     }
 
-//    @GetMapping("/menu/{id}/allergens")
-//    public ResponseEntity<?> getMenuItemAllergens(@PathVariable Integer id) {
-//        return ResponseEntity.
-//                status(HttpStatus.OK).
-//                body(null);
-//    }
-
-
 
 
     @GetMapping("/cart/items")
@@ -54,7 +46,7 @@ public class CustomerController {
     public ResponseEntity<?> getCart(){
         return ResponseEntity.
                 status(HttpStatus.OK).
-                body(null);
+                body(customerService.getCart());
     }
 
     @GetMapping("/cart/items/{id}")
@@ -68,26 +60,21 @@ public class CustomerController {
     public ResponseEntity<?>  addCartItem(@PathVariable Long id, @RequestParam @Min(1) Integer quantity){
         return ResponseEntity.
                 status(HttpStatus.CREATED).
-                body(null);
+                body(customerService.addCartItem(id, quantity));
     }
 
     @DeleteMapping("/cart/items/{id}")
-    public ResponseEntity<?>  deleteCartItem(@PathVariable Integer id){
+    public ResponseEntity<?>  deleteCartItem(@PathVariable Long id){
+        customerService.deleteCartItem(id);
         return ResponseEntity.
-                status(HttpStatus.OK).
-                body(null);
+                status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
-    @PutMapping("/cart/items/{id}")
-    public ResponseEntity<?>  updateCartItem(@PathVariable Integer id, @RequestBody Integer quantity){
-        return ResponseEntity.
-                status(HttpStatus.OK).
-                body(null);
-    }
     @DeleteMapping("/cart/items/")
     public ResponseEntity<?>  deleteAllCartItems(){
         return ResponseEntity.
-                status(HttpStatus.OK).
+                status(HttpStatus.NO_CONTENT).
                 body(null);
     }
 

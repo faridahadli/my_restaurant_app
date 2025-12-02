@@ -50,12 +50,12 @@ import java.util.Optional;
         }
      }
 
-     public static void ifKeyExist(CustomerRestaurantMenuItemResponseDTO key, Cart cart) {
+     public static void ifCartItemExist(Long id, Cart cart) {
 
-        if(!cart.getOrders().containsKey(key)) {
+        if(!cart.getOrders().containsKey(id)) {
             throw ItemNotInCartException.builder()
                     .statusCode(HttpStatus.NOT_FOUND)
-                    .message("Menu item is not in the Cart")
+                    .message("Item is not in the Cart")
                     .build();
         }
 
