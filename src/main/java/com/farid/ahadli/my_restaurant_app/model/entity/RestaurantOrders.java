@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 @Entity
@@ -29,9 +31,9 @@ public class RestaurantOrders {
     @Column(nullable = false, name = "restaurant_id")
     Long restaurantId;
 
-    @Temporal(TemporalType.TIMESTAMP)
+
     @Column(nullable = false, name = "order_date")
-    Date orderDate;
+    Instant orderTime;
 
 
 

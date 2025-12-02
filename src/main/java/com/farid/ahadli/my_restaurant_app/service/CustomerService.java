@@ -1,8 +1,10 @@
 package com.farid.ahadli.my_restaurant_app.service;
 
+import com.farid.ahadli.my_restaurant_app.model.CartItem;
+import com.farid.ahadli.my_restaurant_app.model.dto.response.CustomerCartItemResponseDTO;
 import com.farid.ahadli.my_restaurant_app.utility.GlobalUtil;
 import com.farid.ahadli.my_restaurant_app.model.Cart;
-import com.farid.ahadli.my_restaurant_app.model.dto.response.CartDTO;
+import com.farid.ahadli.my_restaurant_app.model.dto.response.CustomerCartResponseDTO;
 import com.farid.ahadli.my_restaurant_app.model.dto.response.CustomerRestaurantMenuItemResponseDTO;
 import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantMenuItem;
 import com.farid.ahadli.my_restaurant_app.repository.RestaurantMenuItemRepository;
@@ -21,9 +23,9 @@ import java.util.stream.Collectors;
 @Data
 @Slf4j
 public class CustomerService {
-
     Cart cart;
     RestaurantMenuItemRepository restaurantMenuItemRepository;
+
     public List<CustomerRestaurantMenuItemResponseDTO> getMenuItems() {
        List<RestaurantMenuItem> MenuItems = restaurantMenuItemRepository.findAll();
        GlobalUtil.ifMenuEmpty(MenuItems);
@@ -39,31 +41,48 @@ public class CustomerService {
                 .convertRestaurantMenuItemToCustomerRestaurantMenuItemResponseDTO(item.get());
     }
 
-    public Map<CustomerRestaurantMenuItemResponseDTO, Integer> getAllCartItems(){
-        return cart.getOrders();
+    public Map<Long, CustomerCartItemResponseDTO> getAllCartItems(){
+        return MapperUtil.convertCartItemMapToCustomerCartItemResponseDTO(cart.getOrders()) ;
     }
 
-    public CartDTO getCart() {
-        return MapperUtil.CartToCartDTO(cart);
+    public CustomerCartResponseDTO getCart() {
+
+        return MapperUtil.convertCartToCartDTO(cart);
+
     }
 
-    public Map<CustomerRestaurantMenuItemResponseDTO, Integer>  getCartItemById(Long id){
-
-        CustomerRestaurantMenuItemResponseDTO key =  CustomerRestaurantMenuItemResponseDTO.builder().build();
-        key.setId(id);
-
-        GlobalUtil.ifKeyExist(key, cart);
-
+    public CustomerCartItemResponseDTO  getCartItemById(Long id){
+        GlobalUtil.ifMenuItemPresent(restaurantMenuItemRepository.findById(id));
+        GlobalUtil.ifCartItemExist(id, cart);
+        return MapperUtil.convertCartItemToCustomerCartItemResponseDTO(cart.getOrders().get(id));
+    }
 
 
-        return cart.getOrders().entrySet()
-                .stream()
-                .filter(
-                        i-> i.getKey().equals(key)
+    public CustomerCartItemResponseDTO addCartItem(Long id, Integer quantity) {
+        Optional<RestaurantMenuItem> menuItem = restaurantMenuItemRepository.findById(id);
+        GlobalUtil.ifMenuItemPresent(restaurantMenuItemRepository.findById(id));
+        CartItem cartItem =  CartItem.builder()
+                .customerRestaurantMenuItemResponseDTO(
+                        MapperUtil.convertRestaurantMenuItemToCustomerRestaurantMenuItemResponseDTO(menuItem.get())
                 )
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .quantity(quantity)
+                .build();
+        cart.addItem(
+                cartItem
+        );
 
+        return MapperUtil.convertCartItemToCustomerCartItemResponseDTO(cartItem);
     }
+
+    public void deleteCartItem(Long id) {
+        GlobalUtil.ifMenuItemPresent(restaurantMenuItemRepository.findById(id));
+        GlobalUtil.ifCartItemExist(id, cart);
+        cart.removeItem(id);
+    }
+
+   public void deleteAllCartItems(){
+        cart.clearCart();
+   }
 
 //    public Map<CustomerRestaurantMenuItemResponseDTO, Integer>
 
