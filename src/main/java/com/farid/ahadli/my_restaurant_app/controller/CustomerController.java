@@ -1,6 +1,7 @@
 package com.farid.ahadli.my_restaurant_app.controller;
 
 import com.farid.ahadli.my_restaurant_app.service.CustomerService;
+import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -27,7 +28,7 @@ public class CustomerController {
     }
 
     @GetMapping("/menu/{id}")
-    public ResponseEntity<?> getMenuItemById(@PathVariable Integer id) {
+    public ResponseEntity<?> getMenuItemById(@PathVariable Long id) {
         return ResponseEntity.
                 status(HttpStatus.OK).
                 body(customerService.getMenuItemById(id));
@@ -47,20 +48,26 @@ public class CustomerController {
     public ResponseEntity<?>  getAllCartItems(){
         return ResponseEntity.
                 status(HttpStatus.OK).
+                body(customerService.getAllCartItems());
+    }
+    @GetMapping("/cart")
+    public ResponseEntity<?> getCart(){
+        return ResponseEntity.
+                status(HttpStatus.OK).
                 body(null);
     }
 
     @GetMapping("/cart/items/{id}")
-    public ResponseEntity<?>  getCartItemById(@PathVariable int id){
+    public ResponseEntity<?>  getCartItemById(@PathVariable Long id){
         return ResponseEntity.
                 status(HttpStatus.OK).
-                body(null);
+                body(customerService.getCartItemById(id));
     }
 
-    @PostMapping("/cart/items/")
-    public ResponseEntity<?>  addCartItem(@RequestBody Integer id,@RequestBody Integer quantity){
+    @PostMapping("/cart/items/{id}/")
+    public ResponseEntity<?>  addCartItem(@PathVariable Long id, @RequestParam @Min(1) Integer quantity){
         return ResponseEntity.
-                status(HttpStatus.OK).
+                status(HttpStatus.CREATED).
                 body(null);
     }
 

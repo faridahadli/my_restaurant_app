@@ -22,16 +22,6 @@ public class CustomerRestaurantIngredientsResponseDTO implements Serializable {
     Boolean Allergen;
 
 
-    public static Set<CustomerRestaurantIngredientsResponseDTO> convertRestaurantIngredientSetToCustomerRestaurantIngredientResponseDTOSet(Set<RestaurantIngredients> ingredients) {
-        return ingredients.stream()
-                .map(ingredientItem-> CustomerRestaurantIngredientsResponseDTO.builder()
-                        .id(ingredientItem.getId())
-                        .name(ingredientItem.getName())
-                        .Allergen(ingredientItem.getAllergen())
-                        .build()
-
-                ).collect(Collectors.toSet());
-    }
 
 
 }
