@@ -17,6 +17,7 @@ import java.util.Set;
 @ToString
 @EqualsAndHashCode
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class RestaurantMenuItem {
 
     @Id

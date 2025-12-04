@@ -1,6 +1,8 @@
 package com.farid.ahadli.my_restaurant_app.controller;
 
+import com.farid.ahadli.my_restaurant_app.model.dto.request.CustomerCreateOrderRequestDTO;
 import com.farid.ahadli.my_restaurant_app.service.CustomerService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -8,9 +10,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/")
@@ -73,24 +72,37 @@ public class CustomerController {
 
     @DeleteMapping("/cart/items/")
     public ResponseEntity<?>  deleteAllCartItems(){
+        customerService.deleteAllCartItems();
         return ResponseEntity.
-                status(HttpStatus.NO_CONTENT).
-                body(null);
+                status(HttpStatus.NO_CONTENT)
+                .build();
+
     }
 
     @PostMapping("/order")
-    public ResponseEntity<?>  createOrder(){
+    public ResponseEntity<?>  createOrder( @RequestBody @Valid CustomerCreateOrderRequestDTO order){
         return ResponseEntity.
                 status(HttpStatus.OK).
-                body(null);
+                body(customerService.createOrder(order));
     }
 
-    @DeleteMapping("/order")
-    public ResponseEntity<?>  cancelOrder(){
+    @DeleteMapping("/order/id")
+    public ResponseEntity<?>  cancelOrder(@PathVariable Long id){
+
         return ResponseEntity.
-                status(HttpStatus.OK).
-                body(null);
+                status(HttpStatus.NO_CONTENT).
+                build();
     }
+
+//    @GetMapping("/order")
+//    public ResponseEntity<?>  getOrder(){
+//        return ResponseEntity.
+//                status(HttpStatus.OK).
+//                body(null);
+//    }
+
+
+
 
 
 
