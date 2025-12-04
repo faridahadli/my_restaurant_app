@@ -16,6 +16,7 @@ public class CartItem {
     Double cartItemTotalPrice;
     CustomerRestaurantMenuItemResponseDTO   customerRestaurantMenuItemResponseDTO;
     Integer quantity;
+    Double cartItemTotalTax;
 
 
 
@@ -25,6 +26,7 @@ public class CartItem {
         this.customerRestaurantMenuItemResponseDTO = customerRestaurantMenuItemResponseDTO;
         this.quantity = quantity;
         cartItemTotalPrice = customerRestaurantMenuItemResponseDTO.getPrice()*quantity;
+        cartItemTotalTax = customerRestaurantMenuItemResponseDTO.getTaxAmount()*quantity;
 
     }
 
@@ -37,9 +39,14 @@ public class CartItem {
         return quantity;
     }
 
+    public Double getCartItemTotalTax() {
+        return cartItemTotalTax;
+    }
+
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
         cartItemTotalPrice = customerRestaurantMenuItemResponseDTO.getPrice()*quantity;
+        cartItemTotalTax = customerRestaurantMenuItemResponseDTO.getTaxAmount()*quantity;
     }
 
     public CustomerRestaurantMenuItemResponseDTO getCustomerRestaurantMenuItemResponseDTO() {
@@ -49,6 +56,7 @@ public class CartItem {
     public void setCustomerRestaurantMenuItemResponseDTO(CustomerRestaurantMenuItemResponseDTO customerRestaurantMenuItemResponseDTO) {
         this.customerRestaurantMenuItemResponseDTO = customerRestaurantMenuItemResponseDTO;
         cartItemTotalPrice = customerRestaurantMenuItemResponseDTO.getPrice()*quantity;
+        cartItemTotalTax = customerRestaurantMenuItemResponseDTO.getTaxAmount()*quantity;
     }
 
     @Override

@@ -2,12 +2,11 @@ package com.farid.ahadli.my_restaurant_app.utility;
 
 import com.farid.ahadli.my_restaurant_app.model.Cart;
 import com.farid.ahadli.my_restaurant_app.model.CartItem;
-import com.farid.ahadli.my_restaurant_app.model.dto.response.CustomerCartItemResponseDTO;
-import com.farid.ahadli.my_restaurant_app.model.dto.response.CustomerCartResponseDTO;
-import com.farid.ahadli.my_restaurant_app.model.dto.response.CustomerRestaurantIngredientsResponseDTO;
-import com.farid.ahadli.my_restaurant_app.model.dto.response.CustomerRestaurantMenuItemResponseDTO;
+import com.farid.ahadli.my_restaurant_app.model.dto.response.*;
 import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantIngredients;
 import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantMenuItem;
+import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantOrderMenuItem;
+import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantOrders;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +32,19 @@ final public class MapperUtil {
                 .build();
 
     }
+
+//    public static RestaurantMenuItem  convertCustomerRestaurantMenuItemResponseDTOtoRestaurantMenuItem( CustomerRestaurantMenuItemResponseDTO customerRestaurantMenuItemResponseDTO) {
+//        RestaurantMenuItem.builder()
+//                .id(customerRestaurantMenuItemResponseDTO.getId())
+//                .name(customerRestaurantMenuItemResponseDTO.getName())
+//                .price(customerRestaurantMenuItemResponseDTO.getPrice())
+//                .taxRate(customerRestaurantMenuItemResponseDTO.getTaxRate())
+//                .taxType(customerRestaurantMenuItemResponseDTO.getTaxType())
+//                .taxAmount(customerRestaurantMenuItemResponseDTO.getTaxAmount())
+//                .ingredientSet(customerRestaurantMenuItemResponseDTO.getIngredients())
+//                .build();
+//
+//    }
 
     public static List<CustomerRestaurantMenuItemResponseDTO> convertRestaurantMenuItemListToCustomerRestaurantMenuItemResponseDTOList(List<RestaurantMenuItem> MenuItems) {
         return MenuItems
@@ -81,6 +93,30 @@ final public class MapperUtil {
                 .customerRestaurantMenuItemResponseDTO(cartItem.getCustomerRestaurantMenuItemResponseDTO())
                 .quantity(cartItem.getQuantity())
                 .build();
+    }
+
+
+
+  public static  CustomerRestaurantOrderMenuItemResponseDTO convertRestaurantOrderMenuItemToCustomerRestaurantOrderMenuItemResponseDTO (RestaurantOrderMenuItem restaurantOrderMenuItem) {
+
+       return CustomerRestaurantOrderMenuItemResponseDTO.builder()
+                .itemTaxTotal(restaurantOrderMenuItem.getItemTaxTotal())
+                .itemTotal(restaurantOrderMenuItem.getItemTotal())
+                .customerRestaurantMenuItemResponseDTO(convertRestaurantMenuItemToCustomerRestaurantMenuItemResponseDTO(restaurantOrderMenuItem.getMenuItem()))
+                .build();
+    }
+
+    public static  CustomerRestaurantOrdersResponseDTO convertRestaurantOrdersToCustomerRestaurantOrdersResponseDTO (RestaurantOrders restaurantOrdersResponseDTO) {
+       return  CustomerRestaurantOrdersResponseDTO.builder()
+               .diningOption( restaurantOrdersResponseDTO.getDiningOption() )
+               .table(restaurantOrdersResponseDTO.getTable())
+               .orderStatus(restaurantOrdersResponseDTO.getOrderStatus())
+               .restaurantOrderMenuItemResponseDTOList(restaurantOrdersResponseDTO.getOrderMenuItemList()
+                       .stream()
+                       .map(MapperUtil::convertRestaurantOrderMenuItemToCustomerRestaurantOrderMenuItemResponseDTO)
+                       .toList()
+               )
+               .build();
     }
 
 
