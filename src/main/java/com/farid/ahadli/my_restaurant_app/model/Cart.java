@@ -1,7 +1,6 @@
 package com.farid.ahadli.my_restaurant_app.model;
 
 
-import com.farid.ahadli.my_restaurant_app.model.dto.response.CustomerRestaurantMenuItemResponseDTO;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -9,32 +8,41 @@ import lombok.experimental.NonFinal;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
-import java.io.Serializable;
 import java.util.*;
 
 @Component
 @SessionScope
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
-
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Cart  {
-    @NonFinal
     Double totalPrice = 0d;
-    public Map<Long, CartItem> orders = new HashMap<>();
-    public void addItem(CartItem item) {
+    Double totalTax = 0d;
+    public final Map<Long, CartItem> orders = new HashMap<>();
+    public void addOrUpdateItem(CartItem item) {
         CartItem prevItem  =  orders.put(item.getCustomerRestaurantMenuItemResponseDTO().getId(), item);
         Double previousItemTotalPrice = Objects.isNull(prevItem)?0d: prevItem.getCartItemTotalPrice();
         totalPrice+=(item.getCartItemTotalPrice()-previousItemTotalPrice);
+        Double previousItemTotalTax = previousItemTotalPrice == 0?0d: prevItem.getCartItemTotalTax();
+        totalTax+=(item.getCartItemTotalTax()-previousItemTotalTax);
     }
 
     public void removeItem(Long id) {
-        CartItem item = orders.get(id);
-        orders.remove(item.getCustomerRestaurantMenuItemResponseDTO().getId());
+        CartItem item = orders.remove(id);
         totalPrice-=item.getCartItemTotalPrice();
+        totalTax-=item.getCartItemTotalTax();
     }
 
     public void clearCart(){
         orders.clear();
         totalPrice = 0d;
+        totalTax = 0d;
     }
+
+    public boolean isEmpty() {
+        return orders.isEmpty();
+    }
+
+
+
+
 }

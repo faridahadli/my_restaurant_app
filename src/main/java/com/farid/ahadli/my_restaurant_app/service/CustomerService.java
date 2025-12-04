@@ -1,11 +1,15 @@
 package com.farid.ahadli.my_restaurant_app.service;
 
 import com.farid.ahadli.my_restaurant_app.model.CartItem;
-import com.farid.ahadli.my_restaurant_app.model.dto.response.CustomerCartItemResponseDTO;
+import com.farid.ahadli.my_restaurant_app.model.OrderStatus;
+import com.farid.ahadli.my_restaurant_app.model.TableEnum;
+import com.farid.ahadli.my_restaurant_app.model.dto.request.CustomerCreateOrderRequestDTO;
+import com.farid.ahadli.my_restaurant_app.model.dto.response.*;
+import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantOrderMenuItem;
+import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantOrders;
+import com.farid.ahadli.my_restaurant_app.repository.RestaurantOrdersRepository;
 import com.farid.ahadli.my_restaurant_app.utility.GlobalUtil;
 import com.farid.ahadli.my_restaurant_app.model.Cart;
-import com.farid.ahadli.my_restaurant_app.model.dto.response.CustomerCartResponseDTO;
-import com.farid.ahadli.my_restaurant_app.model.dto.response.CustomerRestaurantMenuItemResponseDTO;
 import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantMenuItem;
 import com.farid.ahadli.my_restaurant_app.repository.RestaurantMenuItemRepository;
 import com.farid.ahadli.my_restaurant_app.utility.MapperUtil;
@@ -14,7 +18,9 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,9 +29,12 @@ import java.util.stream.Collectors;
 @Data
 @Slf4j
 public class CustomerService {
-
     Cart cart;
     RestaurantMenuItemRepository restaurantMenuItemRepository;
+    RestaurantOrdersRepository restaurantOrdersRepository;
+
+    //region MenuItem
+
     public List<CustomerRestaurantMenuItemResponseDTO> getMenuItems() {
        List<RestaurantMenuItem> MenuItems = restaurantMenuItemRepository.findAll();
        GlobalUtil.ifMenuEmpty(MenuItems);
@@ -40,7 +49,8 @@ public class CustomerService {
         return MapperUtil
                 .convertRestaurantMenuItemToCustomerRestaurantMenuItemResponseDTO(item.get());
     }
-
+ // endregion
+        // region Cart
     public Map<Long, CustomerCartItemResponseDTO> getAllCartItems(){
         return MapperUtil.convertCartItemMapToCustomerCartItemResponseDTO(cart.getOrders()) ;
     }
@@ -67,7 +77,7 @@ public class CustomerService {
                 )
                 .quantity(quantity)
                 .build();
-        cart.addItem(
+        cart.addOrUpdateItem(
                 cartItem
         );
 
@@ -84,8 +94,61 @@ public class CustomerService {
         cart.clearCart();
    }
 
+   // endregion
 //    public Map<CustomerRestaurantMenuItemResponseDTO, Integer>
 
+    // region Order
+    public CustomerRestaurantOrdersResponseDTO createOrder(CustomerCreateOrderRequestDTO order){
+        GlobalUtil.ifCartEmpty(cart);
+
+        RestaurantOrders newOrder =  RestaurantOrders.builder()
+                .restaurantId(1l)
+                .orderTime(Instant.now())
+                .diningOption(order.getDiningOption())
+                .paymentMethod(order.getPaymentMethod())
+                .orderStatus(OrderStatus.RECEIVED)
+                .table(TableEnum.TABLE_1)
+                .totalTax(cart.getTotalTax())
+                .totalPrice(cart.getTotalPrice())
+                .build();
+
+       cart.getOrders().values().stream().forEach(i-> {
+
+
+                            RestaurantMenuItem item = restaurantMenuItemRepository.findById(i.getCustomerRestaurantMenuItemResponseDTO().getId()).get();
+                            RestaurantOrderMenuItem orderMenuItem = RestaurantOrderMenuItem.builder()
+                                    .itemTotal(i.getCartItemTotalPrice())
+                                    .itemTaxTotal(i.getCartItemTotalTax())
+                                    .quantity(i.getQuantity())
+                                    .menuItem(item)
+                                    .build();
+
+                            orderMenuItem.setOrder(newOrder);
+
+                        }
+                );
+
+        restaurantOrdersRepository.save(newOrder);
+
+        cart.clearCart();
+
+
+
+        return MapperUtil.convertRestaurantOrdersToCustomerRestaurantOrdersResponseDTO(newOrder);
+    }
+
+    public void  cancelOrder(Long id){
+        Optional<RestaurantOrders> order = restaurantOrdersRepository.findById(id);
+        GlobalUtil.ifOrderExists(order);
+        RestaurantOrders orderReal = order.get();
+        GlobalUtil.ifOrderCancellable(orderReal);
+
+    }
+
+
+
+
+    //endregion
 
 
 

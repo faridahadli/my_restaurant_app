@@ -4,6 +4,7 @@ import com.farid.ahadli.my_restaurant_app.exception.*;
 import com.farid.ahadli.my_restaurant_app.model.Cart;
 import com.farid.ahadli.my_restaurant_app.model.dto.response.CustomerRestaurantMenuItemResponseDTO;
 import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantMenuItem;
+import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantOrders;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -41,7 +42,7 @@ import java.util.Optional;
     }
 
 
-     public static void ifCartEmpty(Map<CustomerRestaurantMenuItemResponseDTO, Integer> cart) {
+     public static void ifCartEmpty(Cart cart) {
         if(cart.isEmpty()) {
             throw EmptyCartException.builder()
                     .message("Cart is empty")
@@ -60,10 +61,34 @@ import java.util.Optional;
         }
 
      }
+     public static void ifOrderExists(Optional<RestaurantOrders> order) {
+        if(order.isEmpty()) {
+            throw OrderNotFoundException.builder()
+                    .message("Order with the given id not present")
+                    .statusCode(HttpStatus.NOT_FOUND)
+                    .build();
+        }
+    }
+
+     public static void ifOrderCancellable(RestaurantOrders orderReal) {
+         switch (orderReal.getOrderStatus()) {
+             case RECEIVED -> {
+             }
+             case READY -> throw OrderReadyException.builder()
+                     .message("Order is ready and cannot be cancelled")
+                     .statusCode(HttpStatus.BAD_REQUEST)
+                     .build();
+             case PREPARING -> throw OrderGettingPreparedException.builder()
+                     .message("Order is getting prepared, cannot cancel")
+                     .statusCode(HttpStatus.BAD_REQUEST)
+                     .build();
+         }
+     }
 
      private GlobalUtil() {
 
      }
+
 
 
  }

@@ -2,12 +2,15 @@ package com.farid.ahadli.my_restaurant_app.model.entity;
 
 
 import com.farid.ahadli.my_restaurant_app.model.DiningOption;
+import com.farid.ahadli.my_restaurant_app.model.OrderStatus;
 import com.farid.ahadli.my_restaurant_app.model.PaymentMethod;
 import com.farid.ahadli.my_restaurant_app.model.TableEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 @Entity
@@ -19,6 +22,7 @@ import java.util.*;
 @ToString
 @EqualsAndHashCode
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class RestaurantOrders {
 
     @Id
@@ -29,9 +33,9 @@ public class RestaurantOrders {
     @Column(nullable = false, name = "restaurant_id")
     Long restaurantId;
 
-    @Temporal(TemporalType.TIMESTAMP)
+
     @Column(nullable = false, name = "order_date")
-    Date orderDate;
+    Instant orderTime;
 
 
 
@@ -47,8 +51,13 @@ public class RestaurantOrders {
     @Column(nullable = false)
     TableEnum table ;
 
+    @Column(nullable = false)
+    Double totalPrice;
 
+    @Column(nullable = false)
+    Double totalTax;
 
+    OrderStatus orderStatus;
 
     @OneToMany(
                 mappedBy = "order",
@@ -57,6 +66,7 @@ public class RestaurantOrders {
                         CascadeType.REMOVE
                 }
     )
+
     List<RestaurantOrderMenuItem> OrderMenuItemList = new ArrayList<>();
 
     public  void addMenuItem(RestaurantOrderMenuItem menuItem) {
@@ -65,6 +75,12 @@ public class RestaurantOrders {
         }
     }
 
-
-
+    public RestaurantOrders(Long restaurantId, Instant orderTime, DiningOption diningOption, PaymentMethod paymentMethod, TableEnum table, OrderStatus orderStatus) {
+        this.restaurantId = restaurantId;
+        this.orderTime = orderTime;
+        this.diningOption = diningOption;
+        this.paymentMethod = paymentMethod;
+        this.table = table;
+        this.orderStatus = orderStatus;
+    }
 }

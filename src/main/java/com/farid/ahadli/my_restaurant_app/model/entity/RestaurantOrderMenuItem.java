@@ -16,6 +16,7 @@ import java.util.Objects;
 @EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class RestaurantOrderMenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +31,12 @@ public class RestaurantOrderMenuItem {
     RestaurantMenuItem menuItem;
 
     Integer quantity;
+
+    Double itemTotal;
+
+    Double itemTaxTotal;
+
+
 
     public void setOrder(RestaurantOrders order) {
         if(Objects.nonNull(order)) {
