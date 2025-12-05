@@ -48,7 +48,7 @@ public class RestaurantOrders {
     PaymentMethod paymentMethod;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "table_number")
     TableEnum table ;
 
     @Column(nullable = false)
@@ -57,6 +57,7 @@ public class RestaurantOrders {
     @Column(nullable = false)
     Double totalTax;
 
+    @Enumerated(EnumType.STRING)
     OrderStatus orderStatus;
 
     @OneToMany(

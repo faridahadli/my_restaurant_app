@@ -10,8 +10,12 @@ import org.springframework.http.HttpStatusCode;
 @EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Data
-@Builder
 public class BaseRestaurantException extends RuntimeException {
     String message;
     HttpStatusCode statusCode;
+
+    public BaseRestaurantException(String message, HttpStatusCode statusCode) {
+        this.message = message;
+        this.statusCode = statusCode;
+    }
 }

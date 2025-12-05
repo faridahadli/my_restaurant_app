@@ -15,6 +15,7 @@ import com.farid.ahadli.my_restaurant_app.repository.RestaurantMenuItemRepositor
 import com.farid.ahadli.my_restaurant_app.utility.MapperUtil;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,8 @@ import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Data
 @Slf4j
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CustomerService {
     Cart cart;
     RestaurantMenuItemRepository restaurantMenuItemRepository;
