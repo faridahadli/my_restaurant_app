@@ -88,7 +88,7 @@ public class CustomerController {
 
     @DeleteMapping("/order/id")
     public ResponseEntity<?>  cancelOrder(@PathVariable Long id){
-
+        customerService.cancelOrder(id);
         return ResponseEntity.
                 status(HttpStatus.NO_CONTENT).
                 build();

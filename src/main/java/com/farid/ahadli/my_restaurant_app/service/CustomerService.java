@@ -142,7 +142,7 @@ public class CustomerService {
         GlobalUtil.ifOrderExists(order);
         RestaurantOrders orderReal = order.get();
         GlobalUtil.ifOrderCancellable(orderReal);
-
+        restaurantOrdersRepository.delete(orderReal);
     }
 
 
