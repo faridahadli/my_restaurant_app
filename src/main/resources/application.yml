@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:h2:file:./data/mydb;AUTO_SERVER=TRUE
-    username: farid
-    password: ahadli
+    username: user
+    password: user
     driver-class-name: org.h2.Driver
 
   h2:
@@ -19,3 +19,12 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+
+server:
+  reactive:
+    session:
+      cookie:
+        http-only: true
+        same-site: strict
+        max-age: 5m

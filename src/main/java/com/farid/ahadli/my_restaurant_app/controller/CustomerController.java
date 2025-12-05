@@ -12,12 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/customer")
 @FieldDefaults(level= AccessLevel.PRIVATE, makeFinal=true)
 @Data
 public class CustomerController {
 
     CustomerService customerService;
+
 
     @GetMapping("/menu")
     public ResponseEntity<?> getMenu() {

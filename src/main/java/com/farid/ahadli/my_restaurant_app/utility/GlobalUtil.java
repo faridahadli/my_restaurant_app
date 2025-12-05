@@ -2,13 +2,14 @@ package com.farid.ahadli.my_restaurant_app.utility;
 
 import com.farid.ahadli.my_restaurant_app.exception.*;
 import com.farid.ahadli.my_restaurant_app.model.Cart;
-import com.farid.ahadli.my_restaurant_app.model.dto.response.CustomerRestaurantMenuItemResponseDTO;
 import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantMenuItem;
 import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantOrders;
+import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantRoles;
+import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantUser;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
  final public  class GlobalUtil {
@@ -82,6 +83,24 @@ import java.util.Optional;
                      .message("Order is getting prepared, cannot cancel")
                      .statusCode(HttpStatus.BAD_REQUEST)
                      .build();
+         }
+     }
+
+     public static void ifUserExist(RestaurantUser user) {
+        if( Objects.isNull(user)){
+             throw UserAlreadyExistsException.builder()
+                     .statusCode(HttpStatus.BAD_REQUEST)
+                     .message("User already exists")
+                     .build();
+         }
+     }
+
+     public static void ifRoleExists(RestaurantRoles userRole) {
+            if(Objects.isNull(userRole)){
+                throw NoSuchRoleException.builder()
+                        .statusCode(HttpStatus.BAD_REQUEST)
+                        .message("You cannot add a user with a new role role")
+                        .build();
          }
      }
 
