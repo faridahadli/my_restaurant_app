@@ -3,6 +3,7 @@ package com.farid.ahadli.my_restaurant_app.service;
 import com.farid.ahadli.my_restaurant_app.model.RestaurantUserRoles;
 import com.farid.ahadli.my_restaurant_app.model.dto.request.LoginRequestDTO;
 import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantUser;
+import com.farid.ahadli.my_restaurant_app.repository.RestaurantRoleRepository;
 import com.farid.ahadli.my_restaurant_app.repository.RestaurantUserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,6 @@ import java.util.Objects;
 public class RestaurantUserDetailsService implements UserDetailsService {
 
     RestaurantUserRepository restaurantUserRepository;
-    PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

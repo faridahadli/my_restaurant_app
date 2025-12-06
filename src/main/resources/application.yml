@@ -19,12 +19,25 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
+logging:
+  level:
+    org.springframework.security: DEBUG
 
 
 server:
-  reactive:
+  servlet:
     session:
       cookie:
         http-only: true
-        same-site: strict
+        same-site: lax
         max-age: 5m
+
+
+
+
+#springdoc.swagger-ui.sesss

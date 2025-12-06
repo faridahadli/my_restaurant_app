@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Setter
 @Getter
+@ToString
 public class RestaurantRoles {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

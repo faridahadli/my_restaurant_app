@@ -14,6 +14,8 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "restaurant_user")
+@ToString
 public class RestaurantUser {
 
     @Id
@@ -22,7 +24,7 @@ public class RestaurantUser {
 
 
     @NotEmpty
-    @Column(unique = true,
+    @Column(
             nullable = false)
     String username;
 
@@ -30,7 +32,8 @@ public class RestaurantUser {
     @Column(nullable = false)
     String password;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false)
     RestaurantRoles roles;
 
 }

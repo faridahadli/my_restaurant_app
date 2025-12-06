@@ -8,12 +8,15 @@ import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantUser;
 import com.farid.ahadli.my_restaurant_app.repository.RestaurantRoleRepository;
 import com.farid.ahadli.my_restaurant_app.repository.RestaurantUserRepository;
 import com.farid.ahadli.my_restaurant_app.utility.GlobalUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,7 +28,7 @@ public class LoginRegisterService {
     RestaurantRoleRepository restaurantRoleRepository;
     PasswordEncoder passwordEncoder;
 
-    public void login(LoginRequestDTO loginRequestDTO) {
+    public void login(LoginRequestDTO loginRequestDTO, HttpServletRequest request) {
 
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginRequestDTO.getUsername(),
@@ -33,19 +36,33 @@ public class LoginRegisterService {
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        HttpSession session = request.getSession(true);
+        session.setAttribute(
+                HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+                SecurityContextHolder.getContext()
+        );
+
+        System.out.println(authentication);
+
 
     }
 
     public void register(RegistrationRequestDTO  registrationRequestDTO) {
         RestaurantUser user  = restaurantUserRepository.findByUsername(registrationRequestDTO.getUsername());
+        System.out.println(user);
         GlobalUtil.ifUserExist(user);
         RestaurantRoles user_role = restaurantRoleRepository.findByRole(registrationRequestDTO.getRoles());
         GlobalUtil.ifRoleExists(user_role);
 
-        restaurantUserRepository.save(RestaurantUser.builder()
-                                .username(registrationRequestDTO.getUsername())
-                                .password(passwordEncoder.encode(registrationRequestDTO.getPassword()))
-                                .build());
+        RestaurantUser restaurantUser = RestaurantUser.builder()
+                .username(registrationRequestDTO.getUsername())
+                .password(passwordEncoder.encode(registrationRequestDTO.getPassword()))
+                .roles(restaurantRoleRepository.findByRole(registrationRequestDTO.getRoles()))
+                .build();
+
+        System.out.println(restaurantUser);
+
+        restaurantUserRepository.save(restaurantUser);
 
 
     }

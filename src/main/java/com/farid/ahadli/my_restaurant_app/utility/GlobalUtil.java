@@ -87,7 +87,7 @@ import java.util.Optional;
      }
 
      public static void ifUserExist(RestaurantUser user) {
-        if( Objects.isNull(user)){
+        if( Objects.nonNull(user)){
              throw UserAlreadyExistsException.builder()
                      .statusCode(HttpStatus.BAD_REQUEST)
                      .message("User already exists")

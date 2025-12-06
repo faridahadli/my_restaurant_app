@@ -5,6 +5,7 @@ import com.farid.ahadli.my_restaurant_app.model.dto.request.RegistrationRequestD
 import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantUser;
 import com.farid.ahadli.my_restaurant_app.repository.RestaurantUserRepository;
 import com.farid.ahadli.my_restaurant_app.service.LoginRegisterService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,10 +27,10 @@ public class LoginRegisterController {
 LoginRegisterService loginRegisterService;
 
 @PostMapping("/login")
-public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDTO loginRequestDTO) {
+public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDTO loginRequestDTO, HttpServletRequest request) {
 
 
-    loginRegisterService.login(loginRequestDTO);
+    loginRegisterService.login(loginRequestDTO,request);
 
     return ResponseEntity.status(HttpStatus.OK)
             .body("Login successful");
