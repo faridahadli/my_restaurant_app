@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatusCode;
 public class BaseRestaurantException extends RuntimeException {
     String message;
     HttpStatusCode statusCode;
-
     public BaseRestaurantException(String message, HttpStatusCode statusCode) {
         this.message = message;
         this.statusCode = statusCode;

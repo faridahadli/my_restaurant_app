@@ -27,8 +27,9 @@ import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+//@Data
 @Slf4j
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class CustomerService {
     Cart cart;
     RestaurantMenuItemRepository restaurantMenuItemRepository;
