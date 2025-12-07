@@ -1,5 +1,9 @@
 INSERT INTO RESTAURANT_ROLES (ROLE)
-SELECT 'ADMIN'
+SELECT t.ROLE
+    FROM(
+        values ('ADMIN')
+             ,('KITCHEN')
+        ) AS t(ROLE)
     WHERE NOT EXISTS (
     SELECT * FROM RESTAURANT_ROLES
 );

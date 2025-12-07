@@ -103,6 +103,14 @@ import java.util.Optional;
                         .build();
          }
      }
+     public static void ifRoleAbsent(RestaurantRoles role) {
+        if(Objects.nonNull(role)){
+            throw RoleAlreadyExists.builder()
+                    .message("You cannot add a role that alrady exists")
+                    .statusCode(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+     }
 
      private GlobalUtil() {
 

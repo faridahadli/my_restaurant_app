@@ -3,6 +3,7 @@ package com.farid.ahadli.my_restaurant_app.service;
 
 import com.farid.ahadli.my_restaurant_app.model.dto.request.LoginRequestDTO;
 import com.farid.ahadli.my_restaurant_app.model.dto.request.RegistrationRequestDTO;
+import com.farid.ahadli.my_restaurant_app.model.dto.request.RoleRequestDTO;
 import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantRoles;
 import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantUser;
 import com.farid.ahadli.my_restaurant_app.repository.RestaurantRoleRepository;
@@ -10,6 +11,7 @@ import com.farid.ahadli.my_restaurant_app.repository.RestaurantUserRepository;
 import com.farid.ahadli.my_restaurant_app.utility.GlobalUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +20,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -65,6 +71,31 @@ public class LoginRegisterService {
         restaurantUserRepository.save(restaurantUser);
 
 
+    }
+
+
+    public void addRole( RoleRequestDTO roleRequestDTO) {
+        RestaurantRoles role = restaurantRoleRepository.findByRole(roleRequestDTO.getRole());
+        GlobalUtil.ifRoleAbsent(role);
+        RestaurantRoles newRole = new RestaurantRoles();
+        newRole.setRole(roleRequestDTO.getRole());
+        restaurantRoleRepository.save(newRole);
+    }
+
+
+    public Set<String> getAllUsername(){
+        return restaurantUserRepository.findAllReturnUsernames();
+    }
+
+
+    public Set<String> getAllRoles(){
+        return restaurantRoleRepository.findAllReturnRole();
+    }
+
+
+    @Transactional
+    public void deleteUser( String username){
+        restaurantUserRepository.deleteByUsername(username);
     }
 
 
