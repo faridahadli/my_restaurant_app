@@ -119,10 +119,57 @@ final public class MapperUtil {
                .build();
     }
 
+    public static KitchenRestaurantOrdersResponseDTO convertRestaurantOrdersToKitchenRestaurantOrdersResponseDTO(RestaurantOrders restaurantOrders) {
+
+       return KitchenRestaurantOrdersResponseDTO.builder()
+                .diningOption( restaurantOrders.getDiningOption() )
+                .table(restaurantOrders.getTable())
+                .orderStatus(restaurantOrders.getOrderStatus())
+                .restaurantOrderMenuItemResponseDTOList(restaurantOrders.getOrderMenuItemList()
+                        .stream()
+                        .map(MapperUtil::convertRestaurantOrderMenuItemToKitchenOrderMenuItemResponseDTO)
+                        .toList()
+                )
+                .build();
+    }
+
+
+    public static KitchenRestaurantOrderMenuItemResponseDTO  convertRestaurantOrderMenuItemToKitchenOrderMenuItemResponseDTO( RestaurantOrderMenuItem restaurantOrderMenuItem ){
+       return   KitchenRestaurantOrderMenuItemResponseDTO.builder()
+                .itemTaxTotal(restaurantOrderMenuItem.getItemTaxTotal())
+                .itemTotal(restaurantOrderMenuItem.getItemTotal())
+                .kitchenRestaurantMenuItemResponseDTO(convertRestaurantMenuItemToKitchenRestaurantMenuItemResponseDTO(restaurantOrderMenuItem.getMenuItem()))
+                .build();
+    }
+
+    public static KitchenRestaurantMenuItemResponseDTO convertRestaurantMenuItemToKitchenRestaurantMenuItemResponseDTO(RestaurantMenuItem restaurantMenuItem) {
+        return KitchenRestaurantMenuItemResponseDTO.builder()
+                .id(restaurantMenuItem.getId())
+                .name(restaurantMenuItem.getName())
+                .price(restaurantMenuItem.getPrice())
+                .taxType(restaurantMenuItem.getTaxType())
+                .taxAmount(restaurantMenuItem.getTaxAmount())
+                .taxRate(restaurantMenuItem.getTaxRate())
+                .ingredients(  convertRestaurantIngredientSetToKitchenRestaurantIngredientResponseDTOSet(restaurantMenuItem.getIngredientSet()))
+                .build();
+    }
+
+    public static Set<KitchenRestaurantIngredientsResponseDTO> convertRestaurantIngredientSetToKitchenRestaurantIngredientResponseDTOSet(Set<RestaurantIngredients> ingredients) {
+        return ingredients.stream()
+                .map(ingredientItem-> KitchenRestaurantIngredientsResponseDTO.builder()
+                        .id(ingredientItem.getId())
+                        .name(ingredientItem.getName())
+                        .Allergen(ingredientItem.getAllergen())
+                        .build()
+
+                ).collect(Collectors.toSet());
+    }
+
 
 
     private MapperUtil() {
 
     }
+
 
 }

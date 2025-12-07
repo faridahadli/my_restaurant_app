@@ -112,6 +112,15 @@ import java.util.Optional;
         }
      }
 
+     public static void IfOrdersExist(List<RestaurantOrders> orders) {
+        if(orders.isEmpty()){
+            throw NoOrderToDisplay.builder()
+                    .message("No orders to display at the moment")
+                    .statusCode(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+     }
+
      private GlobalUtil() {
 
      }
