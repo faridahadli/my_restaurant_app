@@ -5,5 +5,6 @@ public enum MeasureUnits {
     KG,
     L,
     ML,
-    CL;
+    CL,
+    PIECE
 }

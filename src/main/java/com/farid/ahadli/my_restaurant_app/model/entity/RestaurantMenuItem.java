@@ -36,7 +36,7 @@ public class RestaurantMenuItem {
             joinColumns = @JoinColumn(name = "menu_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
-    public Set<RestaurantIngredients> ingredientSet =  new HashSet<>() ;
+    Set<RestaurantIngredients> ingredientSet =  new HashSet<>() ;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,name = "tax_type")

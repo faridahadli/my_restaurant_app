@@ -41,6 +41,7 @@ public class RestaurantIngredients {
         menuItem.addIngredientSet(this);
     }
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false,name = "unit")
     MeasureUnits measureUnits;
 

@@ -38,6 +38,4 @@ server:
         max-age: 5m
 
 
-
-
 #springdoc.swagger-ui.sesss
