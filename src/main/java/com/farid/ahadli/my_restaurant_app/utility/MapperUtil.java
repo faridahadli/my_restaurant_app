@@ -167,6 +167,53 @@ final public class MapperUtil {
 
 
 
+    public static AdminRestaurantMenuItemResponseDTO convertRestaurantMenuItemToAdminRestaurantMenuItemResponseDTO(RestaurantMenuItem restaurantMenuItem) {
+        return AdminRestaurantMenuItemResponseDTO.builder()
+                .id(restaurantMenuItem.getId())
+                .name(restaurantMenuItem.getName())
+                .price(restaurantMenuItem.getPrice())
+                .taxType(restaurantMenuItem.getTaxType())
+                .taxAmount(restaurantMenuItem.getTaxAmount())
+                .taxRate(restaurantMenuItem.getTaxRate())
+                .ingredients(  convertRestaurantIngredientSetToAdminRestaurantIngredientResponseDTOSet(restaurantMenuItem.getIngredientSet()))
+                .build();
+    }
+
+    public static Set<AdminRestaurantIngredientsResponseDTO> convertRestaurantIngredientSetToAdminRestaurantIngredientResponseDTOSet(Set<RestaurantIngredients> ingredients) {
+        return ingredients.stream()
+                .map(ingredientItem-> AdminRestaurantIngredientsResponseDTO.builder()
+                        .id(ingredientItem.getId())
+                        .name(ingredientItem.getName())
+                        .Allergen(ingredientItem.getAllergen())
+                        .build()
+
+                ).collect(Collectors.toSet());
+    }
+
+    public static AdminRestaurantOrdersResponseDTO convertRestaurantOrdersToAdminRestaurantOrdersResponseDTO(RestaurantOrders restaurantOrders) {
+
+        return AdminRestaurantOrdersResponseDTO.builder()
+                .diningOption( restaurantOrders.getDiningOption() )
+                .table(restaurantOrders.getTable())
+                .orderStatus(restaurantOrders.getOrderStatus())
+                .adminRestaurantMenuItemResponseDTOList(restaurantOrders.getOrderMenuItemList()
+                        .stream()
+                        .map(MapperUtil::convertRestaurantOrderMenuItemToAdminOrderMenuItemResponseDTO)
+                        .toList()
+                )
+                .build();
+    }
+
+
+    public static AdminRestaurantOrderMenuItemResponseDTO  convertRestaurantOrderMenuItemToAdminOrderMenuItemResponseDTO( RestaurantOrderMenuItem restaurantOrderMenuItem ){
+        return   AdminRestaurantOrderMenuItemResponseDTO.builder()
+                .itemTaxTotal(restaurantOrderMenuItem.getItemTaxTotal())
+                .itemTotal(restaurantOrderMenuItem.getItemTotal())
+                .adminRestaurantMenuItemResponseDTO(convertRestaurantMenuItemToAdminRestaurantMenuItemResponseDTO(restaurantOrderMenuItem.getMenuItem()))
+                .build();
+    }
+    
+    
     private MapperUtil() {
 
     }

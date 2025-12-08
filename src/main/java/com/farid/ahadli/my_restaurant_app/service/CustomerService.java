@@ -46,7 +46,7 @@ public class CustomerService {
 
     public CustomerRestaurantMenuItemResponseDTO getMenuItemById(Long id) {
        // GlobalUtil.ifProperMenuItemId(id);
-        Optional<RestaurantMenuItem> item = restaurantMenuItemRepository.findById(id);
+        Optional<RestaurantMenuItem> item = restaurantMenuItemRepository.findByIdEager(id);
         GlobalUtil.ifMenuItemPresent(item);
         return MapperUtil
                 .convertRestaurantMenuItemToCustomerRestaurantMenuItemResponseDTO(item.get());
@@ -72,7 +72,7 @@ public class CustomerService {
 
     public CustomerCartItemResponseDTO addCartItem(Long id, Integer quantity) {
         Optional<RestaurantMenuItem> menuItem = restaurantMenuItemRepository.findById(id);
-        GlobalUtil.ifMenuItemPresent(restaurantMenuItemRepository.findById(id));
+        GlobalUtil.ifMenuItemPresent(restaurantMenuItemRepository.findByIdEager(id));
         CartItem cartItem =  CartItem.builder()
                 .customerRestaurantMenuItemResponseDTO(
                         MapperUtil.convertRestaurantMenuItemToCustomerRestaurantMenuItemResponseDTO(menuItem.get())

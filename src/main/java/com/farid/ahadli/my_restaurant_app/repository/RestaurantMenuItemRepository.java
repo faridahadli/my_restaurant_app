@@ -13,4 +13,12 @@ public interface RestaurantMenuItemRepository extends JpaRepository<RestaurantMe
     @Query("select MenuItem.id from RestaurantMenuItem MenuItem")
     Set<Long>  getAllIds();
 
+    @Query("select MenuItem from RestaurantMenuItem MenuItem join fetch MenuItem.ingredientSet" )
+    List<RestaurantMenuItem> findAllEager();
+
+    @Query("select MenuItem from RestaurantMenuItem MenuItem join fetch MenuItem.ingredientSet where MenuItem.id=:id")
+    Optional<RestaurantMenuItem> findByIdEager(Long id);
+
+
+
 }

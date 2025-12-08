@@ -2,10 +2,7 @@ package com.farid.ahadli.my_restaurant_app.utility;
 
 import com.farid.ahadli.my_restaurant_app.exception.*;
 import com.farid.ahadli.my_restaurant_app.model.Cart;
-import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantMenuItem;
-import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantOrders;
-import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantRoles;
-import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantUser;
+import com.farid.ahadli.my_restaurant_app.model.entity.*;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -117,6 +114,15 @@ import java.util.Optional;
             throw NoOrderToDisplay.builder()
                     .message("No orders to display at the moment")
                     .statusCode(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+     }
+
+     public static void ifCorrectIngredientIds(List<RestaurantIngredients> restaurantIngredients,Integer size) {
+        if(restaurantIngredients.size()!=size){
+            throw WrongIngredientIds.builder()
+                    .statusCode(HttpStatus.BAD_REQUEST)
+                    .message("Wrong ingredient ids")
                     .build();
         }
      }

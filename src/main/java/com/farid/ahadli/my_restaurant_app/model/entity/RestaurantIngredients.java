@@ -17,6 +17,7 @@ import java.util.Set;
 @ToString
 @EqualsAndHashCode
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class RestaurantIngredients {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +34,7 @@ public class RestaurantIngredients {
             joinColumns =@JoinColumn(name = "ingredient_id"),
             inverseJoinColumns =   @JoinColumn(name = "menu_id")
     )
-    public Set<RestaurantMenuItem> menuItemSet = new HashSet<>();
+    Set<RestaurantMenuItem> menuItemSet = new HashSet<>();
 
     public void addMenuItem(RestaurantMenuItem menuItem) {
         menuItemSet.add(menuItem);
