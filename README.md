@@ -12,6 +12,7 @@ A comprehensive Spring Boot application for managing restaurant operations inclu
 - [Security](#security)
 - [Database](#database)
 - [Project Structure](#project-structure)
+- [Business Logic Highlights](#business-logic-highlights)
 - [Contributing](#contributing)
 
 ## Overview
