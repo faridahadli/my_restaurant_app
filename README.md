@@ -1,6 +1,7 @@
 # Restaurant Management Application
 
-A comprehensive Spring Boot application for managing restaurant operations including customer ordering, kitchen management, and administrative functions.
+A comprehensive Spring Boot application for managing restaurant operations including customer ordering, kitchen management, and administrative functions. 
+Application is extremely easy to test as it uses H2 database which is downloaded and build by `pom.xml`. All the schemas are seeded with sample data by `/resources/data.sql`. Database can easily be queried using H2 console at `http://localhost:8080/h2-console`
 
 ## Table of Contents
 
