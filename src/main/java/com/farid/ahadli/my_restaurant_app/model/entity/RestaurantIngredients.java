@@ -38,7 +38,6 @@ public class RestaurantIngredients {
 
     public void addMenuItem(RestaurantMenuItem menuItem) {
         menuItemSet.add(menuItem);
-        menuItem.addIngredientSet(this);
     }
 
     @Enumerated(EnumType.STRING)

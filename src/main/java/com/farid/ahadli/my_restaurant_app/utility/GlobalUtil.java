@@ -4,6 +4,8 @@ import com.farid.ahadli.my_restaurant_app.exception.*;
 import com.farid.ahadli.my_restaurant_app.model.Cart;
 import com.farid.ahadli.my_restaurant_app.model.entity.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
 import java.util.Objects;
@@ -18,15 +20,6 @@ import java.util.Optional;
                     .build();
         }
     }
-
-//    public static void ifProperMenuItemId(Long id) {
-//        if(Objects.isNull(id)){
-//            throw InvalidMenuItemId.builder()
-//                    .message("Input Id format is invalid")
-//                    .statusCode(HttpStatus.BAD_REQUEST)
-//                    .build();
-//        }
-//    }
 
     public static void ifMenuEmpty(List<RestaurantMenuItem> MenuItems) {
         if(MenuItems.isEmpty()) {
@@ -127,10 +120,24 @@ import java.util.Optional;
         }
      }
 
+     public static String[] getUsernameAndAuthorities(){
+         Authentication user = SecurityContextHolder.getContext().getAuthentication();
+         String username = Objects.isNull(user) ? "anonymousUser" : user.getName();
+         String role = Objects.isNull(user) ? "ROLE_ANONYMOUS" : user.getAuthorities().toString();
+         return new String[]{username,role};
+     }
+
      private GlobalUtil() {
 
      }
 
 
-
+     public static void ifIngredientPresent(Optional<RestaurantIngredients> ingredient) {
+         if (!ingredient.isPresent()) {
+             throw AbsentIngredientException.builder()
+                     .statusCode(HttpStatus.NOT_FOUND)
+                     .message("No such menu item found")
+                     .build();
+         }
+     }
  }

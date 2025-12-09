@@ -87,25 +87,11 @@ public class CustomerController {
                 body(customerService.createOrder(order));
     }
 
-    @DeleteMapping("/order/id")
-    public ResponseEntity<?>  cancelOrder(@PathVariable Long id){
+    @DeleteMapping("/order/{id}")
+    public ResponseEntity<?>  cancelOrder(@PathVariable String id){
         customerService.cancelOrder(id);
         return ResponseEntity.
                 status(HttpStatus.NO_CONTENT).
                 build();
     }
-
-//    @GetMapping("/order")
-//    public ResponseEntity<?>  getOrder(){
-//        return ResponseEntity.
-//                status(HttpStatus.OK).
-//                body(null);
-//    }
-
-
-
-
-
-
-
 }

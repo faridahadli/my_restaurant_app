@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 
 @AllArgsConstructor
 @RestController
@@ -25,7 +24,7 @@ public class KitchenController {
     }
 
     @GetMapping("/orders/{id}")
-    public ResponseEntity<?> getOrdersById(@PathVariable Long id) {
+    public ResponseEntity<?> getOrdersById(@PathVariable String id) {
         return ResponseEntity.
                 ok().
                 body(kitchenService.getRestaurantOrderById(id));
@@ -33,7 +32,7 @@ public class KitchenController {
 
 
     @PutMapping("/orders/{id}")
-    public ResponseEntity<?> updateOrderStatus(@PathVariable Long id, @RequestBody @Valid KitchenUpdateOrderRequestDTO kitchenUpdateOrderDTO ) {
+    public ResponseEntity<?> updateOrderStatus(@PathVariable String id, @RequestBody @Valid KitchenUpdateOrderRequestDTO kitchenUpdateOrderDTO ) {
         kitchenService.updateOrderStatus(id, kitchenUpdateOrderDTO);
         return ResponseEntity.
                 status(HttpStatus.NO_CONTENT)

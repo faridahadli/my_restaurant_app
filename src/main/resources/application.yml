@@ -37,5 +37,4 @@ server:
         same-site: lax
         max-age: 5m
 
-
-#springdoc.swagger-ui.sesss
+restaurant_id: 12

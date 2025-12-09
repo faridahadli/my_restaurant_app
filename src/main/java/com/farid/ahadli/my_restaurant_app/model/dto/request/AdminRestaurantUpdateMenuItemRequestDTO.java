@@ -1,6 +1,6 @@
 package com.farid.ahadli.my_restaurant_app.model.dto.request;
 
-import com.farid.ahadli.my_restaurant_app.ProperTaxType;
+import com.farid.ahadli.my_restaurant_app.validation.ProperTaxType;
 import com.farid.ahadli.my_restaurant_app.model.TaxType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

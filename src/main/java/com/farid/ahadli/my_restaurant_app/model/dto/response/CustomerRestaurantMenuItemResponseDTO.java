@@ -1,16 +1,10 @@
 package com.farid.ahadli.my_restaurant_app.model.dto.response;
 
 import com.farid.ahadli.my_restaurant_app.model.TaxType;
-import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantMenuItem;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
-
 @Builder
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)

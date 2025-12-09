@@ -2,7 +2,6 @@ package com.farid.ahadli.my_restaurant_app.service;
 
 import com.farid.ahadli.my_restaurant_app.model.CartItem;
 import com.farid.ahadli.my_restaurant_app.model.OrderStatus;
-import com.farid.ahadli.my_restaurant_app.model.TableEnum;
 import com.farid.ahadli.my_restaurant_app.model.dto.request.CustomerCreateOrderRequestDTO;
 import com.farid.ahadli.my_restaurant_app.model.dto.response.*;
 import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantOrderMenuItem;
@@ -13,27 +12,30 @@ import com.farid.ahadli.my_restaurant_app.model.Cart;
 import com.farid.ahadli.my_restaurant_app.model.entity.RestaurantMenuItem;
 import com.farid.ahadli.my_restaurant_app.repository.RestaurantMenuItemRepository;
 import com.farid.ahadli.my_restaurant_app.utility.MapperUtil;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.Instant;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-//@Data
 @Slf4j
 @RequiredArgsConstructor
 public class CustomerService {
     Cart cart;
     RestaurantMenuItemRepository restaurantMenuItemRepository;
     RestaurantOrdersRepository restaurantOrdersRepository;
+
+    @NonFinal
+    @Value("${restaurant_id}")
+    Long restaurantId;
 
     //region MenuItem
 
@@ -45,7 +47,6 @@ public class CustomerService {
     }
 
     public CustomerRestaurantMenuItemResponseDTO getMenuItemById(Long id) {
-       // GlobalUtil.ifProperMenuItemId(id);
         Optional<RestaurantMenuItem> item = restaurantMenuItemRepository.findByIdEager(id);
         GlobalUtil.ifMenuItemPresent(item);
         return MapperUtil
@@ -100,16 +101,19 @@ public class CustomerService {
 //    public Map<CustomerRestaurantMenuItemResponseDTO, Integer>
 
     // region Order
+
+    @Transactional
     public CustomerRestaurantOrdersResponseDTO createOrder(CustomerCreateOrderRequestDTO order){
         GlobalUtil.ifCartEmpty(cart);
 
         RestaurantOrders newOrder =  RestaurantOrders.builder()
-                .restaurantId(1l)
+                .id(UUID.randomUUID().toString())
+                .restaurantId(restaurantId)
                 .orderTime(Instant.now())
                 .diningOption(order.getDiningOption())
                 .paymentMethod(order.getPaymentMethod())
                 .orderStatus(OrderStatus.RECEIVED)
-                .table(TableEnum.TABLE_1)
+                .table(order.getTable())
                 .totalTax(cart.getTotalTax())
                 .totalPrice(cart.getTotalPrice())
                 .build();
@@ -139,7 +143,7 @@ public class CustomerService {
         return MapperUtil.convertRestaurantOrdersToCustomerRestaurantOrdersResponseDTO(newOrder);
     }
 
-    public void  cancelOrder(Long id){
+    public void  cancelOrder(String id){
         Optional<RestaurantOrders> order = restaurantOrdersRepository.findById(id);
         GlobalUtil.ifOrderExists(order);
         RestaurantOrders orderReal = order.get();

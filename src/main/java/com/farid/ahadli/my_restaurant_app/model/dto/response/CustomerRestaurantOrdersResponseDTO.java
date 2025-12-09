@@ -4,7 +4,6 @@ import com.farid.ahadli.my_restaurant_app.model.DiningOption;
 import com.farid.ahadli.my_restaurant_app.model.OrderStatus;
 import com.farid.ahadli.my_restaurant_app.model.PaymentMethod;
 import com.farid.ahadli.my_restaurant_app.model.TableEnum;
-import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;

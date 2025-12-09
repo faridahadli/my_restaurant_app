@@ -33,18 +33,7 @@ final public class MapperUtil {
 
     }
 
-//    public static RestaurantMenuItem  convertCustomerRestaurantMenuItemResponseDTOtoRestaurantMenuItem( CustomerRestaurantMenuItemResponseDTO customerRestaurantMenuItemResponseDTO) {
-//        RestaurantMenuItem.builder()
-//                .id(customerRestaurantMenuItemResponseDTO.getId())
-//                .name(customerRestaurantMenuItemResponseDTO.getName())
-//                .price(customerRestaurantMenuItemResponseDTO.getPrice())
-//                .taxRate(customerRestaurantMenuItemResponseDTO.getTaxRate())
-//                .taxType(customerRestaurantMenuItemResponseDTO.getTaxType())
-//                .taxAmount(customerRestaurantMenuItemResponseDTO.getTaxAmount())
-//                .ingredientSet(customerRestaurantMenuItemResponseDTO.getIngredients())
-//                .build();
-//
-//    }
+
 
     public static List<CustomerRestaurantMenuItemResponseDTO> convertRestaurantMenuItemListToCustomerRestaurantMenuItemResponseDTOList(List<RestaurantMenuItem> MenuItems) {
         return MenuItems

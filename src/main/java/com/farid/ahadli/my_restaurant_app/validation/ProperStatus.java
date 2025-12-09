@@ -1,11 +1,12 @@
-package com.farid.ahadli.my_restaurant_app;
+package com.farid.ahadli.my_restaurant_app.validation;
+import com.farid.ahadli.my_restaurant_app.model.OrderStatus;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
-@Constraint(validatedBy = KitchenOrderStatusValidator.class)
+@Constraint(validatedBy = ProperStatusValidator.class)
 public @interface ProperStatus {
     String message() default "Invalid status";
-    String[] acceptedStaus() default {"READY", "PREPARING"};
+    OrderStatus[] acceptedStatus() default {};
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

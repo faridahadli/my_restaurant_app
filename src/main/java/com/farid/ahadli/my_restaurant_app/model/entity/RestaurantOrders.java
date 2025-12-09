@@ -10,7 +10,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.Instant;
-import java.time.ZonedDateTime;
 import java.util.*;
 
 @Entity
@@ -26,8 +25,7 @@ import java.util.*;
 public class RestaurantOrders {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    String id;
 
 
     @Column(nullable = false, name = "restaurant_id")

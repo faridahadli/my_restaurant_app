@@ -17,13 +17,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-
-//    @Autowired
-//    PasswordEncoder passwordEncoder;
-//
-//    @Autowired
-//    RestaurantUserDetailsService userDetailsService;
-
     @Bean
     public AuthenticationManager authManager(HttpSecurity httpSecurity, AuthenticationProvider authenticationProvider) throws Exception {
         return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
@@ -73,15 +66,6 @@ public class SecurityConfiguration {
 
         return http.build();
     }
-
-//    @Bean
-//    public InMemoryUserDetailsManager userDetailsService() {
-//        UserDetails user = User.withUsername("admin")
-//                .password(passwordEncoder().encode("password"))
-//                .roles("USER")
-//                .build();
-//        return new InMemoryUserDetailsManager(user);
-//    }
 }
 
 

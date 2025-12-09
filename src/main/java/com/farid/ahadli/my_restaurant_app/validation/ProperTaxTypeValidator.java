@@ -1,10 +1,9 @@
-package com.farid.ahadli.my_restaurant_app;
+package com.farid.ahadli.my_restaurant_app.validation;
 
 import com.farid.ahadli.my_restaurant_app.model.TaxType;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-import java.util.Arrays;
 import java.util.Set;
 
 public class ProperTaxTypeValidator implements ConstraintValidator<ProperTaxType, TaxType> {

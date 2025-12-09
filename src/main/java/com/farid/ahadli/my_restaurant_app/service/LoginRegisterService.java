@@ -11,7 +11,6 @@ import com.farid.ahadli.my_restaurant_app.repository.RestaurantUserRepository;
 import com.farid.ahadli.my_restaurant_app.utility.GlobalUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +21,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+
 import java.util.Set;
 
 @Service
@@ -52,7 +51,7 @@ public class LoginRegisterService {
 
 
     }
-
+    @Transactional
     public void register(RegistrationRequestDTO  registrationRequestDTO) {
         RestaurantUser user  = restaurantUserRepository.findByUsername(registrationRequestDTO.getUsername());
         System.out.println(user);
@@ -73,7 +72,7 @@ public class LoginRegisterService {
 
     }
 
-
+    @Transactional
     public void addRole( RoleRequestDTO roleRequestDTO) {
         RestaurantRoles role = restaurantRoleRepository.findByRole(roleRequestDTO.getRole());
         GlobalUtil.ifRoleAbsent(role);

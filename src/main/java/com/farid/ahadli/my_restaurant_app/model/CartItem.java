@@ -4,10 +4,6 @@ import com.farid.ahadli.my_restaurant_app.model.dto.response.CustomerRestaurantM
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.io.Serializable;
-import java.util.Map;
-
-
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CartItem {

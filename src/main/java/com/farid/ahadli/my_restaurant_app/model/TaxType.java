@@ -4,7 +4,7 @@ public enum TaxType {
     VAT(0.18),
     TAX_FREE(0.0);
     Double taxRate;
-    private TaxType(Double taxRate) {
+    TaxType(Double taxRate) {
         this.taxRate = taxRate;
     }
 

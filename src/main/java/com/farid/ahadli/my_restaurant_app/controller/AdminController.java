@@ -1,9 +1,7 @@
 package com.farid.ahadli.my_restaurant_app.controller;
-
 import com.farid.ahadli.my_restaurant_app.model.dto.request.AdminAddRestaurantIngredientsRequestDTO;
 import com.farid.ahadli.my_restaurant_app.model.dto.request.AdminRestaurantAddMenuItemRequestDTO;
 import com.farid.ahadli.my_restaurant_app.model.dto.request.AdminRestaurantUpdateMenuItemRequestDTO;
-import com.farid.ahadli.my_restaurant_app.repository.RestaurantIngredientsRepository;
 import com.farid.ahadli.my_restaurant_app.service.AdminService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -11,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
-import java.util.Date;
 
 @RestController
 @RequestMapping("/admin")
@@ -37,14 +33,14 @@ public class AdminController {
 
 
 
-    @PostMapping("/menu") // introduce some DTO
+    @PostMapping("/menu")
     public ResponseEntity<?> addMenu(@RequestBody @Valid AdminRestaurantAddMenuItemRequestDTO adminRestaurantAddMenuItemRequestDTO) {
         adminService.addMenuItem(adminRestaurantAddMenuItemRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("menu item added");
 
     }
 
-    @PutMapping("/menu/") // add some dto
+    @PutMapping("/menu/")
     public ResponseEntity<?> updateMenu(@RequestBody @Valid AdminRestaurantUpdateMenuItemRequestDTO adminRestaurantUpdateMenuItemRequestDTO ) {
         adminService.updateMenuItem(adminRestaurantUpdateMenuItemRequestDTO);
         return ResponseEntity.
@@ -52,7 +48,7 @@ public class AdminController {
                 body("update successful") ;
     }
 
-    @DeleteMapping("/menu/{id}") // add some dto
+    @DeleteMapping("/menu/{id}")
     public ResponseEntity<?> deleteMenu(@PathVariable Long id ) {
         adminService.deleteMenuItem(id);
         return ResponseEntity.
@@ -62,7 +58,7 @@ public class AdminController {
 
 
 
-    @PostMapping("/ingredients/") // add some dto
+    @PostMapping("/ingredients/")
     public ResponseEntity<?> addIngredient(@RequestBody @Valid AdminAddRestaurantIngredientsRequestDTO addRestaurantIngredientsRequestDTO) {
         adminService.addIngredient(addRestaurantIngredientsRequestDTO);
         return ResponseEntity.
@@ -75,15 +71,6 @@ public class AdminController {
         adminService.deleteIngredient(id);
         return ResponseEntity.noContent().build();
     }
-
-
-
-//    @GetMapping("/report") // need dto
-//    public ResponseEntity<?> generateReport(@RequestBody Date dateRange ) {
-//        return ResponseEntity.
-//                ok().
-//                body(null);
-//    }
 
 
 
