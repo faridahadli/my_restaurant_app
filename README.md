@@ -43,7 +43,6 @@ This application provides a complete restaurant management system with three mai
 - Ingredient management with allergen tracking
 - Menu item pricing and tax configuration
 - User management and role assignment
-- Order monitoring
 
 ## Technology Stack
 
