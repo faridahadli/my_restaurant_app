@@ -198,5 +198,3 @@ Custom validators ensure data integrity:
 - `@ProperTaxType`: Validates tax types
 
 ---
-
-**Note**: This is a development version using H2 file-based database. For production use, consider migrating to PostgreSQL or MySQL and implementing additional security measures such as JWT authentication, rate limiting, and HTTPS enforcement.
