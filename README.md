@@ -14,7 +14,7 @@ Application is extremely easy to test as it uses H2 database which is downloaded
 - [Database](#database)
 - [Project Structure](#project-structure)
 - [Business Logic Highlights](#business-logic-highlights)
-- [Contributing](#contributing)
+- [Validation](#validation)
 
 ## Overview
 
@@ -50,7 +50,7 @@ This application provides a complete restaurant management system with three mai
 - **Framework**: Spring Boot 3.4.0
 - **Language**: Java 17
 - **Database**: H2 (file-based)
-- **Security**: Spring Security with session-based authentication
+- **Security**: Spring Security with JWT based authentication
 - **ORM**: Spring Data JPA / Hibernate
 - **Validation**: Jakarta Validation
 - **Build Tool**: Maven
@@ -114,7 +114,7 @@ The application comes with two pre-configured users:
 
 The application uses Spring Security with the following configuration:
 
-- **Session Management**: Session-based authentication (5-minute timeout)
+- **Session Management**: `master` branch utilizes JWT based authentication meanwhile  `session-based-authentication` branch depends on session based authentication, both with 5-minute timeout
 - **CSRF**: Disabled for API usage
 - **Password Encoding**: BCrypt with strength 12
 
@@ -134,6 +134,8 @@ The application uses Spring Security with the following configuration:
 ### Schema Overview
 
 The application uses the following main entities:
+
+![diagram](entity_uml_diag.png)
 
 - **RestaurantMenuItem**: Menu items with pricing and tax information
 - **RestaurantIngredients**: Ingredient definitions with allergen flags
@@ -180,6 +182,9 @@ src/main/java/com/farid/ahadli/my_restaurant_app/
 3. **READY**: Order ready for pickup/serving
 
 ### Cart Management
+
+![cart_diagram](cart_uml_diag.png)
+
 - Session-scoped cart per user
 - Automatic price and tax calculation
 - Cart cleared after order placement
