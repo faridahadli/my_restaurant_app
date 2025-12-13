@@ -34,7 +34,7 @@ public class CustomerService {
     RestaurantOrdersRepository restaurantOrdersRepository;
 
     @NonFinal
-    @Value("${restaurant_id}")
+    @Value("${restaurant.id}")
     Long restaurantId;
 
     //region MenuItem

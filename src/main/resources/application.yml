@@ -37,4 +37,6 @@ server:
         same-site: lax
         max-age: 5m
 
-restaurant_id: 12
+restaurant:
+  id: 12
+  key: "6c21edcdf01c8534536a28c766b57422dd44fc82e26901b3e5"

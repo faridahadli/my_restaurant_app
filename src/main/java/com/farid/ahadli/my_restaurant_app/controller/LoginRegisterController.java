@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @AllArgsConstructor
 public class LoginRegisterController {
@@ -18,13 +21,9 @@ public class LoginRegisterController {
     LoginRegisterService loginRegisterService;
 
 @PostMapping("/login")
-public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDTO loginRequestDTO, HttpServletRequest request) {
-
-
-    loginRegisterService.login(loginRequestDTO,request);
-
+public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDTO loginRequestDTO) {
     return ResponseEntity.status(HttpStatus.OK)
-            .body("Login successful");
+            .body(Map.of("JWT", loginRegisterService.login(loginRequestDTO)));
 
 }
 

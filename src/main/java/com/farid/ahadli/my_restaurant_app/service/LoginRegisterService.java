@@ -16,12 +16,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.HashMap;
 import java.util.Set;
 
 @Service
@@ -32,8 +34,9 @@ public class LoginRegisterService {
     RestaurantUserRepository restaurantUserRepository;
     RestaurantRoleRepository restaurantRoleRepository;
     PasswordEncoder passwordEncoder;
+    JWTService jwtService;
 
-    public void login(LoginRequestDTO loginRequestDTO, HttpServletRequest request) {
+    public String login(LoginRequestDTO loginRequestDTO) {
 
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginRequestDTO.getUsername(),
@@ -41,13 +44,7 @@ public class LoginRegisterService {
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        HttpSession session = request.getSession(true);
-        session.setAttribute(
-                HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-                SecurityContextHolder.getContext()
-        );
-
-        System.out.println(authentication);
+        return jwtService.generateToken(new HashMap<>(), ((User) authentication.getPrincipal()).getUsername());
 
 
     }
